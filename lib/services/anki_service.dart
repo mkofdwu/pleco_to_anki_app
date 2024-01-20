@@ -4,7 +4,7 @@ import 'package:pleco_to_anki/services/anki/note_css.dart';
 import 'package:pleco_to_anki/models_static/deck.dart';
 
 class AnkiService extends GetxService {
-  static const theModelName = 'pleco_to_anki model 6';
+  static const theModelName = 'pleco_to_anki model';
   static const ankiPerms = 'com.ichi2.anki.permission.READ_WRITE_DATABASE';
   static const platform = MethodChannel('com.example.pleco_to_anki/ankidroid');
 
