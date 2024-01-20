@@ -40,7 +40,7 @@ ${compileTextItems()}
       return '<span class="tags">${item.name}</span>';
     }
     if (item is ListItemIndicator) {
-      String result = '<div><span class="list-index">${item.index}</span>';
+      String result = '<li><span class="list-index">${item.index}</span>';
       if (peek() is WordClass) {
         result += compileTextItem(consume());
         if (peek() is SimpleText) {
@@ -49,18 +49,18 @@ ${compileTextItems()}
       } else if (peek() is SimpleText) {
         result += compileTextItem(consume());
       }
-      result += '</div>';
+      result += '</li>';
       return result;
     }
     if (item is Example) {
-      return '''<li class="example">
+      return '''<div class="example">
     <div class="bullet-point"></div>
     <div class="example-column">
     <span class="chinese">${item.chinese}</span>
     <span class="pinyin">${item.pinyin}</span>
     <span class="definition">${item.english}</span>
     </div>
-</li>''';
+</div>''';
     }
     throw 'Unknown TextItem: ${item.runtimeType}';
   }

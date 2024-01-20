@@ -1,5 +1,17 @@
 import 'models.dart';
 
+int countBrackets(String word) {
+  int count = 0;
+  for (int i = 0; i < word.length; i++) {
+    if (word[i] == '(') {
+      count++;
+    } else if (word[i] == ')') {
+      count--;
+    }
+  }
+  return count;
+}
+
 class PhraseParser {
   // parses single line in pleco export file
 
@@ -44,15 +56,26 @@ class PhraseParser {
 
   String consumeSimpleText() {
     final start = cur;
+
     int prevCur = cur;
+    int openBrackets = 0;
     String word = consumeWord();
-    while (!plecoWordClasses.contains(word) &&
-        !numberRegexPattern.hasMatch(word) &&
-        !chineseCharPattern.hasMatch(word) &&
-        word.isNotEmpty) {
+    // break if reached end
+    // break if all brackets are closed and hit non standard text
+    while (true) {
+      if (word.isEmpty) break;
+
+      if (openBrackets <= 0 &&
+          (plecoWordClasses.contains(word) ||
+              numberRegexPattern.hasMatch(word) ||
+              chineseCharPattern.hasMatch(word))) break;
+
+      openBrackets += countBrackets(word);
+
       prevCur = cur;
       word = consumeWord();
     }
+
     cur = prevCur;
     return src.substring(start, cur).trimRight();
   }

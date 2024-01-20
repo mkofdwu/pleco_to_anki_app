@@ -37,6 +37,9 @@ h2 {
   font-size: 12px;
   font-weight: 900;
   text-transform: uppercase;
+}
+
+.card > .tags {
   margin-top: 16px;
 }
 

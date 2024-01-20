@@ -20,7 +20,29 @@ class DeckView extends StatelessWidget {
         body: Column(
           children: [
             _detailSheet(controller),
-            Expanded(child: Container()),
+            Expanded(
+              child: Obx(
+                () => controller.numToProcess.value > 0
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 64,
+                            height: 64,
+                            child: CircularProgressIndicator(
+                              value: controller.numProcessed.value /
+                                  controller.numToProcess.value,
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          Text(
+                            'Importing ${controller.numProcessed.value}/${controller.numToProcess.value}',
+                          ),
+                        ],
+                      )
+                    : const SizedBox(),
+              ),
+            ),
           ],
         ),
       ),
