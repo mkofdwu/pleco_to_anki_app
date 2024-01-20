@@ -4,8 +4,10 @@ Import Pleco flashcards into AnkiDroid in the click of a button.
 
 This is a more accessible improvement over the [python script](https://github.com/mkofdwu/pleco_to_anki) I wrote 3 years ago.
 
-<img src="./example/app.jpg" width="300" />
-<img src="./example/screenshot.jpg" width="300" />
+<div>
+  <img src="./example/app.jpg" width="300" />
+  <img src="./example/screenshot.jpg" width="300" />
+</div>
 
 ## Usage
 
