@@ -1,5 +1,46 @@
 import 'models.dart';
 
+const tonedVowels = {
+  'a': 'āáǎà',
+  'e': 'ēéěè',
+  'i': 'īíǐì',
+  'o': 'ōóǒò',
+  'u': 'ūúǔù',
+  'ü': 'ǖǘǚǜ',
+};
+
+String prettifyPinyinSingle(String pinyin) {
+  final spelling = pinyin.substring(0, pinyin.length - 1);
+  final tone = int.parse(pinyin[pinyin.length - 1]) - 1;
+  if (tone == 4) {
+    return spelling;
+  }
+  if (spelling.endsWith('iu')) {
+    return spelling.substring(0, spelling.length - 1) + tonedVowels['u']![tone];
+  }
+  if (spelling.endsWith('ui')) {
+    return spelling.substring(0, spelling.length - 1) + tonedVowels['i']![tone];
+  }
+  for (final vowel in ['a', 'e', 'i', 'o', 'u']) {
+    int index = spelling.indexOf(vowel);
+    if (index != -1) {
+      return spelling.substring(0, index) +
+          tonedVowels[vowel]![tone] +
+          spelling.substring(index + 1);
+    }
+  }
+  // impossible to reach here
+  return spelling;
+}
+
+String prettifyPinyin(String pinyin) {
+  // convert notation such as shu4 to shù
+  return RegExp('[a-zü]+[1-5]')
+      .allMatches(pinyin.toLowerCase())
+      .map((match) => prettifyPinyinSingle(match.group(0)!))
+      .join(' ');
+}
+
 class PhraseCompiler {
   // complies to html
   final Phrase phrase;
@@ -19,7 +60,7 @@ class PhraseCompiler {
   String compileToHTML() {
     return '''<div class="card">
 <h1 class="chinese">${phrase.chinese}</h1>
-<h2>${phrase.pinyin}</h2>
+<h2>${prettifyPinyin(phrase.pinyin)}</h2>
 ${compileTextItems()}
 </div>''';
   }
